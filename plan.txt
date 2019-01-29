@@ -1,0 +1,25 @@
+
+Chapter 1.  Text-based Zork Adventure
+
+Chapter 2. 1-D Flatland game
+
+Chapter 3. 2-D ASCII
+    possible to output? 
+    speech bubbles
+
+Chapter 4. 2-D basic squares
+
+Chapter 5. top-down turn-based rpg
+
+Chapter 6. top-down real-time rpg (Zelda)
+
+Chapter 7. Dimensionarium
+    Coming 2024
+
+God Mode
+    unlimited ammo
+    cannot die, but neither will you truly live
+        HP still reduces, possible negative HP. If God mode exits while HP<=0, death
+        -must heal before exiting God mode
+    Can see defeated enemies as ghosts
+    Cannot communicate with NPCs
