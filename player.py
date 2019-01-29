@@ -20,8 +20,10 @@ class Player():
             self.determine_ability_scores("roll")
         self.ability_scores_modifiers()
 
+        self.godmode = False
+
     def is_alive(self):
-        return self.hp > 0
+        return self.hp > 0 or self.godmode
 
     def do_action(self, action, **kwargs):
         action_method = getattr(self, action.method.__name__)
@@ -31,6 +33,11 @@ class Player():
     def print_inventory(self):
         for item in self.inventory:
             print(item, '\n')
+
+    def toggle_god_mode(self):
+        """toggles God mode"""
+        self.godmode = not self.godmode
+        print("God mode set to: ",self.godmode)
 
     def move(self, dx, dy):
         self.location_x += dx

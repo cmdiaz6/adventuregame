@@ -20,7 +20,8 @@ def play():
             available_actions = room.available_actions()
             time.sleep(0.5)
             for action in available_actions:
-                print(action)
+                if action.hotkey is not "g":
+                    print(action)
             action_input = input('Action: ')
             print('')
             os.system('clear')

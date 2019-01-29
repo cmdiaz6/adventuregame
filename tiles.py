@@ -37,6 +37,7 @@ class MapTile:
         """Returns all of the available actions in this room."""
         moves = self.adjacent_moves()
         moves.append(actions.ViewInventory())
+        moves.append(actions.GodMode())
         return moves
 
 

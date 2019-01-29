@@ -39,3 +39,6 @@ class Flee(Action):
     def __init__(self, tile):
         super().__init__(method=Player.flee, name="Flee", hotkey='f', tile=tile)
 
+class GodMode(Action):
+    def __init__(self):
+        super().__init__(method=Player.toggle_god_mode,name="God Mode", hotkey='g')
