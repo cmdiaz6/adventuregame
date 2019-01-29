@@ -1,5 +1,7 @@
 import random
 import items, world
+from functions import roll
+import time
 
 class Player():
     def __init__(self):
@@ -7,6 +9,16 @@ class Player():
         self.hp = 100
         self.location_x, self.location_y = world.starting_position
         self.victory = False
+        stattype = input("\ndetermine stats with arrays (a) or roll (r)? ")
+        if stattype == "a":
+            self.determine_ability_scores("array")
+        elif stattype == "r":
+            self.determine_ability_scores("roll")
+        else:
+            print("\nyou apparently cannot handle this decision so it will be handled for you.\n")
+            time.sleep(2)
+            self.determine_ability_scores("roll")
+        self.ability_scores_modifiers()
 
     def is_alive(self):
         return self.hp > 0
@@ -43,13 +55,17 @@ class Player():
                     max_dmg = i.damage
                     best_weapon = i
 
+        attack_roll = sum(roll(1,20)) + self.str_mod
         print('')
-        print(f"You attack {enemy.name} with your {best_weapon.name}!")
-        enemy.hp -= best_weapon.damage
-        if not enemy.is_alive():
-            print(f"You have murdered {enemy.name}.")
+        if attack_roll > 10:
+            print(f"You attack {enemy.name} with your {best_weapon.name}!")
+            enemy.hp -= best_weapon.damage
+            if not enemy.is_alive():
+                print(f"You have murdered {enemy.name}.")
+            else:
+                print(f"{enemy.name}'s wellness deteriorates to {enemy.hp} vitality units.")
         else:
-            print(f"{enemy.name}'s wellness deteriorates to {enemy.hp} vitality units.")
+            print("You missed!")
         print('')
 
     def flee(self, tile):
@@ -67,23 +83,27 @@ class Player():
         "Constitution" : 0,
         "Charisma" :     0,
         "Intelligence" : 0,
-        "Wisdom" :       0
+        "Wisdom  " :     0
         }
         if method == "roll":
             for i in self.abilities:
-                scores = functions.die(4, 6)
+#                scores = functions.die(4, 6)
+                scores = roll(4,6)
                 scores.sort()
                 scores = scores[1::]
                 self.abilities[i] = sum(scores)
         elif method == "array":
             scores = [8, 10, 12, 13, 14, 15]
             for i in self.abilities:
-                rand_index = randint(0, len(scores) - 1)
+                rand_index = random.randint(0, len(scores) - 1)
                 self.abilities[i] = scores[rand_index]
                 scores.pop(rand_index)
         #Add racial modifier
 #        for i in self.abilities:
 #            self.abilities[i] += self.race.abilities[i]
+
+        for a in self.abilities:
+            print(a,"\t",self.abilities[a])
 
     def ability_scores_modifiers(self):
         self.str_mod = (self.abilities["Strength"] - 10) // 2

@@ -1,4 +1,5 @@
 import items, enemies, actions, world
+import time
 
 class MapTile:
     """The base class for a tile within the world space"""
@@ -53,7 +54,8 @@ class StartingRoom(MapTile):
 
 class LeaveCaveRoom(MapTile):
     def intro_text(self):
-        return """
+#        return """
+        print("""
         You see an exit sign up ahead... sirens are in the distance and the walls flash red and blue...
         You squint against the brightness and exit clutching your FINE ROCK.
         
@@ -61,7 +63,12 @@ class LeaveCaveRoom(MapTile):
         Your FINE ROCK tumbles from your hand and lands among a pile of COMMON ROCKs, where it will wait for your return...
        
         In ROCK SEARCH III, coming SPRING 1996!
+        """)
+        time.sleep(3)
+        return """
+        . . . ?
         """
+        time.sleep(1)
 
     def modify_player(self, player):
         player.victory = True

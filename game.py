@@ -4,6 +4,7 @@ import world
 from player import Player
 
 def play():
+    os.system('clear')
     world.load_tiles()
     player = Player()
 
@@ -22,7 +23,7 @@ def play():
                 print(action)
             action_input = input('Action: ')
             print('')
-#            os.system('clear')
+            os.system('clear')
             for action in available_actions:
                 if action_input == action.hotkey:
                     player.do_action(action, **action.kwargs)
