@@ -1,0 +1,7 @@
+EmptyCavePath	LeaveCaveRoom			
+FindFineRockRoom				
+FindRockRoom	BigOlSpiderRoom	LilSpiderRoom		
+EmptyCavePath				
+StartingRoom				
+EmptyCavePath				
+EmptyCavePath	EmptyCavePath	EmptyCavePath	LilSpiderRoom	LilSpiderRoom
