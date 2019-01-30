@@ -53,7 +53,7 @@ class Player():
     def move(self, dx, dy):
         self.location_x += dx
         self.location_y += dy
-        print(world.tile_exists(self.location_x, self.location_y).intro_text())
+        print(world.tile_exists(self.location_x, self.location_y).intro_text(self))
 
     def move_north(self):
         self.move(dx=0, dy=-1)
@@ -74,15 +74,19 @@ class Player():
                     best_weapon = i
 
         attack_roll = sum(roll(1,20)) + self.str_mod
+        attack_roll = attack_roll + 5 if self.godmode else attack_roll
         print('')
         if attack_roll > 10:
             print(f"You attack {enemy.name} with your {best_weapon.name}!")
             enemy.hp -= best_weapon.damage
             if not enemy.is_alive():
                 print(f"You have murdered {enemy.name}.")
-                print("LEVEL UP!")
-                self.level += random.randint(1,40)
-                self.xp += random.randint(1,1000)
+                if not self.godmode:
+                    self.level += random.randint(1,40)
+                    xp = random.randint(1,1000)
+                    print("gained {}XP".format(xp))
+                    self.xp += xp
+                    print("LEVEL UP!")
             else:
                 print(f"{enemy.name}'s wellness deteriorates to {enemy.hp} vitality units.")
         else:

@@ -12,7 +12,7 @@ class MapTile:
         self.x = x
         self.y = y
 
-    def intro_text(self):
+    def intro_text(self, player):
         """Information to be displayed when the player moves into this tile."""
         raise NotImplementedError()
 
@@ -78,7 +78,7 @@ class FindRockRoom(LootRoom):
     def __init__(self, x, y):
         super().__init__(x, y, items.Rock())
  
-    def intro_text(self):
+    def intro_text(self, player):
         return """
         Your notice something sitting in the corner.
         It's a ROCK! You are drawn to it. You pick it up and place it among your impressive collection.
@@ -88,7 +88,7 @@ class FindFineRockRoom(LootRoom):
     def __init__(self, x, y):
         super().__init__(x, y, items.FineRock())
  
-    def intro_text(self):
+    def intro_text(self, player):
         return """
         Your notice another rock. Something about this rock fills you with dread.
         It's a FINE ROCK! This rock is much older than most rocks and full of the wisdom that age brings.
@@ -96,7 +96,7 @@ class FindFineRockRoom(LootRoom):
         """
 
 class StartingRoom(MapTile):
-    def intro_text(self):
+    def intro_text(self, player):
         return """
         You find YOURSELF in a room.
         1 SELF added to inventory!
@@ -112,33 +112,42 @@ class BigOlSpiderRoom(EnemyRoom):
     def __init__(self, x, y):
         super().__init__(x, y, enemies.BigOlSpider())
 
-    def intro_text(self):
+    def intro_text(self, player):
         if self.enemy.is_alive():
             return """
             A big ol' spider spooks the hell out of you!
             """
         else:
-            #print("player.godmode",player.godmode)
-            return """
-            A large spider lays dead here, mourned by its children
-            """
+            if player.godmode:
+                return """
+                The spirit of a large spider wanders the room, searching eternally for her children.
+                """
+            else:
+                return """
+                A large spider lays dead and alone.
+                """
 
 class LilSpiderRoom(EnemyRoom):
     def __init__(self, x, y):
         super().__init__(x, y, enemies.LilSpider())
 
-    def intro_text(self):
+    def intro_text(self, player):
         if self.enemy.is_alive():
             return """
             A lil' spider waits for its mother to return.
             """
         else:
-            return """
-            A small smudge is on the floor. All that is left of the proud Spider race
-            """
+            if player.godmode:
+                return """
+                A lil' spider spirit waits patiently.
+                """
+            else:
+                return """
+                A small smudge is on the floor. All that is left of the proud Spider race
+                """
 
 class EmptyCavePath(MapTile):
-    def intro_text(self):
+    def intro_text(self, player):
         return """
         Another unremarkable part of the cave. Keep moving.
         """
@@ -148,7 +157,7 @@ class EmptyCavePath(MapTile):
         pass
 
 class LeaveCaveRoom(MapTile):
-    def intro_text(self):
+    def intro_text(self, player):
 #        return """
         print("""
         You see an exit sign up ahead... sirens are in the distance and the walls flash red and blue...

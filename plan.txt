@@ -13,8 +13,16 @@ Chapter 5. top-down turn-based rpg
 
 Chapter 6. top-down real-time rpg (Zelda)
 
-Chapter 7. Dimensionarium
+Chapter 7. isometric turn-based rpg (Final Fantasy Tactics)
+    Coming 2021
+
+Chapter 8. Dimensionarium
     Coming 2024
+
+Chapter ideas:
+    2-D sidescroller
+    Podracing
+    Chess game with Death
 
 God Mode
     unlimited ammo
@@ -22,4 +30,21 @@ God Mode
         HP still reduces, possible negative HP. If God mode exits while HP<=0, death
         -must heal before exiting God mode
     Can see defeated enemies as ghosts
-    Cannot communicate with NPCs
+    Cannot communicate with living NPCs
+    boosts chance to hit by 5 pts
+    Cannot level up as there is none higher than God
+    Will not pick up items as a God has no need for earthly posessions
+
+    Quadrumvirate or Quadrinity
+        Holy Ghost mode:
+            commune with ghosts
+            resurrect the dead
+            impregnate virgin to create The Child
+            bless the living so they will ascend to Heaven at death instead of becoming a ghost
+            cannot interact with the material world (except to impregnate)
+        The Child mode:
+            miracles = [multiply bread, walk on water]
+            can die
+        The Father mode: previous god mode stuff
+        The Cousin mode: TBD
+
