@@ -16,15 +16,16 @@ def play():
         room.modify_player(player)
         # Check again since the room could have changed the player's state
         if player.is_alive() and not player.victory:
+            time.sleep(0.25)
             print("Choose an action:\n")
             available_actions = room.available_actions()
-            time.sleep(0.5)
             for action in available_actions:
                 if action.hotkey is not "g":
                     print(action)
             action_input = input('Action: ')
             print('')
             os.system('clear')
+            time.sleep(0.25)
             for action in available_actions:
                 if action_input == action.hotkey:
                     player.do_action(action, **action.kwargs)

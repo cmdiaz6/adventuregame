@@ -37,9 +37,63 @@ class MapTile:
         """Returns all of the available actions in this room."""
         moves = self.adjacent_moves()
         moves.append(actions.ViewInventory())
+        moves.append(actions.ViewStats())
         moves.append(actions.GodMode())
         return moves
 
+class LootRoom(MapTile):
+    """A room that adds something to the player's inventory"""
+    def __init__(self, x, y, item):
+        self.item = item
+        super().__init__(x, y)
+ 
+    def add_loot(self, player):
+        player.inventory.append(self.item)
+ 
+    def modify_player(self, player):
+        self.add_loot(player)
+
+class EnemyRoom(MapTile):
+    def __init__(self, x, y, enemy):
+        self.enemy = enemy
+        super().__init__(x, y)
+
+    def modify_player(self, the_player):
+        if self.enemy.is_alive():
+            the_player.hp = the_player.hp - self.enemy.damage
+            print(f"The enemy hurls {self.enemy.damage} damager orbs at you. You have {the_player.hp} vitality units remaining.")
+            print('')
+
+    def available_actions(self):
+        if self.enemy.is_alive():
+            return [actions.Flee(tile=self), actions.Attack(enemy=self.enemy)]
+        else:
+            moves = self.adjacent_moves()
+            moves.append(actions.ViewInventory())
+            moves.append(actions.ViewStats())
+            moves.append(actions.GodMode())
+            return moves
+
+class FindRockRoom(LootRoom):
+    def __init__(self, x, y):
+        super().__init__(x, y, items.Rock())
+ 
+    def intro_text(self):
+        return """
+        Your notice something sitting in the corner.
+        It's a ROCK! You are drawn to it. You pick it up and place it among your impressive collection.
+        """
+
+class FindFineRockRoom(LootRoom):
+    def __init__(self, x, y):
+        super().__init__(x, y, items.FineRock())
+ 
+    def intro_text(self):
+        return """
+        Your notice another rock. Something about this rock fills you with dread.
+        It's a FINE ROCK! This rock is much older than most rocks and full of the wisdom that age brings.
+        The rock may not be as functional as the more pragmatic rocks in your collection, but it makes a fine travelling partner 
+        """
 
 class StartingRoom(MapTile):
     def intro_text(self):
@@ -49,6 +103,46 @@ class StartingRoom(MapTile):
 
         there is a door to the North, you should get your bearings and figure out which way is North"""
 
+    def modify_player(self, player):
+        #Room has no action on player
+        pass
+
+
+class BigOlSpiderRoom(EnemyRoom):
+    def __init__(self, x, y):
+        super().__init__(x, y, enemies.BigOlSpider())
+
+    def intro_text(self):
+        if self.enemy.is_alive():
+            return """
+            A big ol' spider spooks the hell out of you!
+            """
+        else:
+            #print("player.godmode",player.godmode)
+            return """
+            A large spider lays dead here, mourned by its children
+            """
+
+class LilSpiderRoom(EnemyRoom):
+    def __init__(self, x, y):
+        super().__init__(x, y, enemies.LilSpider())
+
+    def intro_text(self):
+        if self.enemy.is_alive():
+            return """
+            A lil' spider waits for its mother to return.
+            """
+        else:
+            return """
+            A small smudge is on the floor. All that is left of the proud Spider race
+            """
+
+class EmptyCavePath(MapTile):
+    def intro_text(self):
+        return """
+        Another unremarkable part of the cave. Keep moving.
+        """
+ 
     def modify_player(self, player):
         #Room has no action on player
         pass
@@ -74,92 +168,3 @@ class LeaveCaveRoom(MapTile):
     def modify_player(self, player):
         player.victory = True
 
-class LootRoom(MapTile):
-    """A room that adds something to the player's inventory"""
-    def __init__(self, x, y, item):
-        self.item = item
-        super().__init__(x, y)
- 
-    def add_loot(self, player):
-        player.inventory.append(self.item)
- 
-    def modify_player(self, player):
-        self.add_loot(player)
-
-class FindRockRoom(LootRoom):
-    def __init__(self, x, y):
-        super().__init__(x, y, items.Rock())
- 
-    def intro_text(self):
-        return """
-        Your notice something sitting in the corner.
-        It's a ROCK! You are drawn to it. You pick it up and place it among your impressive collection.
-        """
-
-class FindFineRockRoom(LootRoom):
-    def __init__(self, x, y):
-        super().__init__(x, y, items.FineRock())
- 
-    def intro_text(self):
-        return """
-        Your notice another rock. Something about this rock fills you with dread.
-        It's a FINE ROCK! This rock is much older than most rocks and full of the wisdom that age brings.
-        The rock may not be as functional as the more pragmatic rocks in your collection, but it makes a fine travelling partner 
-        """
-
-
-class EnemyRoom(MapTile):
-    def __init__(self, x, y, enemy):
-        self.enemy = enemy
-        super().__init__(x, y)
-
-    def modify_player(self, the_player):
-        if self.enemy.is_alive():
-            the_player.hp = the_player.hp - self.enemy.damage
-            print(f"The enemy hurls {self.enemy.damage} damager orbs at you. You have {the_player.hp} vitality units remaining.")
-            print('')
-
-    def available_actions(self):
-        if self.enemy.is_alive():
-            return [actions.Flee(tile=self), actions.Attack(enemy=self.enemy)]
-        else:
-            return self.adjacent_moves()
-
-class BigOlSpiderRoom(EnemyRoom):
-    def __init__(self, x, y):
-        super().__init__(x, y, enemies.BigOlSpider())
-
-    def intro_text(self):
-        if self.enemy.is_alive():
-            return """
-            A big ol' spider spooks the hell out of you!
-            """
-        else:
-            return """
-            A large spider lays dead here, mourned by its children
-            """
-
-class LilSpiderRoom(EnemyRoom):
-    def __init__(self, x, y):
-        super().__init__(x, y, enemies.LilSpider())
-
-    def intro_text(self):
-        if self.enemy.is_alive():
-            return """
-            A lil' spider waits for its mother to return.
-            """
-        else:
-            return """
-            A small smudge is on the floor. All that is left of the proud Spider race
-            """
-
-
-class EmptyCavePath(MapTile):
-    def intro_text(self):
-        return """
-        Another unremarkable part of the cave.
-        """
- 
-    def modify_player(self, player):
-        #Room has no action on player
-        pass

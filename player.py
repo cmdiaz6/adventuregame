@@ -5,6 +5,8 @@ import time
 
 class Player():
     def __init__(self):
+        self.level = 1
+        self.xp = 1
         self.inventory = [items.Gold(15), items.Rock()]
         self.hp = 100
         self.location_x, self.location_y = world.starting_position
@@ -33,6 +35,15 @@ class Player():
     def print_inventory(self):
         for item in self.inventory:
             print(item, '\n')
+
+    def print_stats(self):
+        print("\nVitality Units:",self.hp,"/100\n")
+        print("level: ",self.level,"\t XP:",self.xp)
+        for a in self.abilities:
+            print(a,"\t",self.abilities[a])
+        if self.godmode:
+            print("God Mode active")
+        print("")
 
     def toggle_god_mode(self):
         """toggles God mode"""
@@ -69,6 +80,9 @@ class Player():
             enemy.hp -= best_weapon.damage
             if not enemy.is_alive():
                 print(f"You have murdered {enemy.name}.")
+                print("LEVEL UP!")
+                self.level += random.randint(1,40)
+                self.xp += random.randint(1,1000)
             else:
                 print(f"{enemy.name}'s wellness deteriorates to {enemy.hp} vitality units.")
         else:
