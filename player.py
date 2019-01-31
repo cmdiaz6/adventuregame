@@ -7,8 +7,9 @@ class Player():
     def __init__(self):
         self.level = 1
         self.xp = 1
-        self.inventory = [items.Gold(15), items.Rock()]
+        self.inventory = [items.Gold(15),items.Glove()]
         self.hp = 100
+        self.gold = 0
         self.location_x, self.location_y = world.starting_position
         self.victory = False
         stattype = input("\ndetermine stats with arrays (a) or roll (r)? ")
@@ -33,6 +34,7 @@ class Player():
             action_method(**kwargs)
 
     def print_inventory(self):
+        print(self.gold,' Gold\n')
         for item in self.inventory:
             print(item, '\n')
 

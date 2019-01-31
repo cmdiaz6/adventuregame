@@ -1,5 +1,6 @@
 import items, enemies, actions, world
-import time
+import time, random, inspect
+from functions import roll
 
 class MapTile:
     """The base class for a tile within the world space"""
@@ -19,6 +20,13 @@ class MapTile:
     def modify_player(self, player):
         """Process actions that change the state of the player."""
         raise NotImplementedError()
+    def other_moves(self):
+        """Returns all other moves"""
+        moves = []
+        moves.append(actions.ViewInventory())
+        moves.append(actions.ViewStats())
+        moves.append(actions.GodMode())
+        return moves
 
     def adjacent_moves(self):
         """Returns all move actions for adjacent tiles."""
@@ -31,14 +39,11 @@ class MapTile:
             moves.append(actions.MoveNorth())
         if world.tile_exists(self.x, self.y + 1):
             moves.append(actions.MoveSouth())
-        return moves
+        return moves + self.other_moves()
 
     def available_actions(self):
         """Returns all of the available actions in this room."""
         moves = self.adjacent_moves()
-        moves.append(actions.ViewInventory())
-        moves.append(actions.ViewStats())
-        moves.append(actions.GodMode())
         return moves
 
 class LootRoom(MapTile):
@@ -48,7 +53,16 @@ class LootRoom(MapTile):
         super().__init__(x, y)
  
     def add_loot(self, player):
-        player.inventory.append(self.item)
+        if not self.item.taken:
+            self.item.taken = True
+            if isinstance(self.item,items.Gold):
+                player.gold += random.randint(self.item.amt-4,self.item.amt+3)
+                print('Total gold is ',player.gold)
+            elif self.item in player.inventory:
+                self.item.count += 1
+                print("total collected:",self.item.count)
+            else:
+                player.inventory.append(self.item)
  
     def modify_player(self, player):
         self.add_loot(player)
@@ -69,10 +83,17 @@ class EnemyRoom(MapTile):
             return [actions.Flee(tile=self), actions.Attack(enemy=self.enemy)]
         else:
             moves = self.adjacent_moves()
-            moves.append(actions.ViewInventory())
-            moves.append(actions.ViewStats())
-            moves.append(actions.GodMode())
             return moves
+
+class FindGoldRoom(LootRoom):
+    def __init__(self, x, y):
+        super().__init__(x, y, items.Gold(10))
+ 
+    def intro_text(self, player):
+        return """
+        You see a chest sitting in the room.
+        You open the chest and it is full of gold! You look over your shoulder and grab a quick handful.
+        """
 
 class FindRockRoom(LootRoom):
     def __init__(self, x, y):

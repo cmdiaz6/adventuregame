@@ -5,3 +5,4 @@ EmptyCavePath
 StartingRoom				
 EmptyCavePath				
 EmptyCavePath	EmptyCavePath	EmptyCavePath	LilSpiderRoom	LilSpiderRoom
+FindGoldRoom				
