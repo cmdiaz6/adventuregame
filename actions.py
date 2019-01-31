@@ -33,7 +33,7 @@ class ViewInventory(Action):
 
 class ViewStats(Action):
     def __init__(self):
-        super().__init__(method=Player.print_stats, name='View stats', hotkey='v')
+        super().__init__(method=Player.print_stats, name='View stats', hotkey='stats')
 
 class Attack(Action):
     def __init__(self,enemy):
@@ -42,6 +42,10 @@ class Attack(Action):
 class Flee(Action):
     def __init__(self, tile):
         super().__init__(method=Player.flee, name="Flee", hotkey='f', tile=tile)
+
+class Look(Action):
+    def __init__(self, tile):
+        super().__init__(method=Player.look, name="Look", hotkey='l', tile=tile)
 
 class GodMode(Action):
     def __init__(self):

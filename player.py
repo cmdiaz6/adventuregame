@@ -1,29 +1,33 @@
 import random
 import items, world
-from functions import roll
-import time
+from functions import roll, slowprint
+import time, sys
 
 class Player():
     def __init__(self):
         self.level = 1
         self.xp = 1
-        self.inventory = [items.Gold(15),items.Glove()]
+        self.inventory = [items.Glove()]
         self.hp = 100
         self.gold = 0
         self.location_x, self.location_y = world.starting_position
+        self.godmode = False
         self.victory = False
-        stattype = input("\ndetermine stats with arrays (a) or roll (r)? ")
+
+        print("Character creation screen")
+        stattype = input("Determine stats with arrays (a) or roll (r)? \n>")
+        time.sleep(0.1)
         if stattype == "a":
             self.determine_ability_scores("array")
         elif stattype == "r":
+            slowprint("Calculating rolls",0.1)
+            slowprint(" . . . .\n",0.5)
             self.determine_ability_scores("roll")
         else:
             print("\nyou apparently cannot handle this decision so it will be handled for you.\n")
-            time.sleep(2)
+            time.sleep(0.5)
             self.determine_ability_scores("roll")
         self.ability_scores_modifiers()
-
-        self.godmode = False
 
     def is_alive(self):
         return self.hp > 0 or self.godmode
@@ -34,7 +38,7 @@ class Player():
             action_method(**kwargs)
 
     def print_inventory(self):
-        print(self.gold,' Gold\n')
+        print(' {} Gold'.format(self.gold))
         for item in self.inventory:
             print(item, '\n')
 
@@ -101,6 +105,9 @@ class Player():
         r = random.randint(0, len(available_moves) - 1)
         self.do_action(available_moves[r])
 
+    def look(self, tile):
+        print(tile.intro_text(tile))
+
 ################### ################### ###################
     def determine_ability_scores(self, method):
         #Sets ability scores by either 4d6 drop lowest method or by the standard array in random order
@@ -114,7 +121,6 @@ class Player():
         }
         if method == "roll":
             for i in self.abilities:
-#                scores = functions.die(4, 6)
                 scores = roll(4,6)
                 scores.sort()
                 scores = scores[1::]
@@ -125,12 +131,14 @@ class Player():
                 rand_index = random.randint(0, len(scores) - 1)
                 self.abilities[i] = scores[rand_index]
                 scores.pop(rand_index)
+            
         #Add racial modifier
 #        for i in self.abilities:
 #            self.abilities[i] += self.race.abilities[i]
 
         for a in self.abilities:
-            print(a,"\t",self.abilities[a])
+            print(a,"\t",self.abilities[a], flush=True)
+            time.sleep(0.05)
 
     def ability_scores_modifiers(self):
         self.str_mod = (self.abilities["Strength"] - 10) // 2

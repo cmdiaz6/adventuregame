@@ -5,6 +5,7 @@ from player import Player
 
 def play():
     os.system('clear')
+    print('\nTEXT-BASED ADVENTURE GAME IS STARTING UP NOW!\n')
     world.load_tiles()
     player = Player()
 
@@ -17,14 +18,18 @@ def play():
         # Check again since the room could have changed the player's state
         if player.is_alive() and not player.victory:
             time.sleep(0.25)
-            print("Choose an action:\n")
             available_actions = room.available_actions()
+
+#            helplist = ['help','h','look','actions']
+#            if action_input.lower() in helplist:
+#            if True:
+            print("Available actions:\n")
             for action in available_actions:
                 if action.hotkey is not "g":
                     print(action)
-            action_input = input('Action: ')
+#                action='skip'
+            action_input = input('> ')
             print('')
-            os.system('clear')
             time.sleep(0.25)
             for action in available_actions:
                 if action_input == action.hotkey:

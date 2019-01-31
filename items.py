@@ -10,7 +10,7 @@ class Item():
         self.taken = False
 
     def __str__(self):
-        return "{}: {}\tValue: {}".format(self.name,self.description,self.value)
+        return "{}: {}\nValue: {}".format(self.name,self.description,self.value)
 
 class Gold(Item):
     def __init__(self, amt):
@@ -25,7 +25,7 @@ class Weapon(Item):
         super().__init__(name, description, value)
 
     def __str__(self):
-        return "{}: {}\t\tValue: {}\nDamage: {}".format(self.name,self.description,self.value,self.damage)
+        return "{}: {}\nValue: {}\tDamage: {}".format(self.name,self.description,self.value,self.damage)
 
 class Rock(Weapon):
     def __init__(self):
@@ -54,7 +54,7 @@ class Healing(Item):
         super().__init__(name, description, value)
 
     def __str__(self):
-        return "{}: {}\t\tValue: {}\nRestorative Power: {}".format(self.name,self.description,self.value,self.heal)
+        return "{}: {}\nValue: {}\tRestorative Power: {}".format(self.name,self.description,self.value,self.heal)
 
 class Poultice(Healing):
     def __init__(self):

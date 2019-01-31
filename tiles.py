@@ -23,6 +23,7 @@ class MapTile:
     def other_moves(self):
         """Returns all other moves"""
         moves = []
+        moves.append(actions.Look(self))
         moves.append(actions.ViewInventory())
         moves.append(actions.ViewStats())
         moves.append(actions.GodMode())

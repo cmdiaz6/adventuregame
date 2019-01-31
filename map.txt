@@ -1,8 +1,8 @@
-EmptyCavePath	LeaveCaveRoom			
-FindFineRockRoom				
-FindRockRoom	BigOlSpiderRoom	LilSpiderRoom		
-EmptyCavePath				
-StartingRoom				
-EmptyCavePath				
-EmptyCavePath	EmptyCavePath	EmptyCavePath	LilSpiderRoom	LilSpiderRoom
-FindGoldRoom				
+FindGoldRoom	EmptyCavePath	LeaveCaveRoom			
+	FindRockRoom				
+	FindFineRockRoom	BigOlSpiderRoom	LilSpiderRoom		
+	EmptyCavePath				
+FindGoldRoom	StartingRoom				
+	EmptyCavePath				
+	EmptyCavePath	EmptyCavePath	EmptyCavePath	LilSpiderRoom	LilSpiderRoom
+	FindGoldRoom				
