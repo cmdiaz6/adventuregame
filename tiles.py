@@ -56,6 +56,7 @@ class LootRoom(MapTile):
         if not self.item.taken:
             self.item.taken = True
             if isinstance(self.item,items.Gold):
+                handful = 5 + random.randint(2,4) * player.dex_mod
                 player.gold += random.randint(self.item.amt-4,self.item.amt+3)
                 print('Total gold is ',player.gold)
             elif self.item in player.inventory:
