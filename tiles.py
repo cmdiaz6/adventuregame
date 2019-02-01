@@ -103,7 +103,7 @@ class FindRockRoom(LootRoom):
  
     def intro_text(self, player):
         return """
-        Your notice something sitting in the corner.
+        You notice something sitting in the corner.
         It's a ROCK! You are drawn to it. You pick it up and place it among your impressive collection.
         """
 
@@ -113,7 +113,7 @@ class FindFineRockRoom(LootRoom):
  
     def intro_text(self, player):
         return """
-        Your notice another rock. Something about this rock fills you with dread.
+        You notice another rock. Something about this rock fills you with dread.
         It's a FINE ROCK! This rock is much older than most rocks and full of the wisdom that age brings.
         The rock may not be as functional as the more pragmatic rocks in your collection, but it makes a fine travelling partner 
         """
@@ -122,7 +122,7 @@ class StartingRoom(MapTile):
     def intro_text(self, player):
         return """
         You find YOURSELF in a room.
-        1 SELF added to inventory!
+        1 YOURSELF added to inventory!
 
         there is a door to the North, you should get your bearings and figure out which way is North"""
 
@@ -138,7 +138,7 @@ class BigOlSpiderRoom(EnemyRoom):
     def intro_text(self, player):
         if self.enemy.is_alive():
             return """
-            A big ol' spider spooks the hell out of you!
+            A big ol' spider spooks the FUCK out of you!
             """
         else:
             if player.godmode:

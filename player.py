@@ -82,17 +82,21 @@ class Player():
         attack_roll = sum(roll(1,20)) + self.str_mod
         attack_roll = attack_roll + 5 if self.godmode else attack_roll
         print('')
+        print(f"You attack {enemy.name} with your {best_weapon.name}.")
         if attack_roll > 10:
-            print(f"You attack {enemy.name} with your {best_weapon.name}!")
+            damage = best_weapon.damage + self.str_mod
+            print(f"You inflict {damage} units of drainage upon the creature!")
             enemy.hp -= best_weapon.damage
             if not enemy.is_alive():
-                print(f"You have murdered {enemy.name}.")
                 if not self.godmode:
+                    print(f"You have murdered {enemy.name}.")
                     self.level += random.randint(1,40)
                     xp = random.randint(1,1000)
                     print("gained {}XP".format(xp))
                     self.xp += xp
                     print("LEVEL UP!")
+                else:
+                    print(f"You have freed {enemy.name} from its mortal coil.")
             else:
                 print(f"{enemy.name}'s wellness deteriorates to {enemy.hp} vitality units.")
         else:
@@ -106,7 +110,7 @@ class Player():
         self.do_action(available_moves[r])
 
     def look(self, tile):
-        print(tile.intro_text(tile))
+        print(tile.intro_text(self))
 
 ################### ################### ###################
     def determine_ability_scores(self, method):

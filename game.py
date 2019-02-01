@@ -35,6 +35,8 @@ def play():
                 if action_input == action.hotkey:
                     player.do_action(action, **action.kwargs)
                     break
+            if action_input.lower() == 'iddqd':
+                print("congrats on being a big fucking nerd. Just type 'g' next time.\n")
 
 if __name__ == "__main__":
     play()
